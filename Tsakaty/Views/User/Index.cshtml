@@ -1,0 +1,60 @@
+﻿@model List<(Tsakaty.Models.ApplicationUser User, bool IsAdmin)>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Users Analytics</h1>
+
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                <h5>User Name</h5>
+            </th>
+            
+            
+            <th>
+                <h5>Role</h5>
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    @if (Model != null)
+    {
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        <p>@item.User.UserName</p>
+                    </td>
+                    
+                    <td>@(item.IsAdmin ? "Admin" : "User")</td>
+                    <td>
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.User.Id">Details</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.User.Id">Delete</a>
+                        @if (item.IsAdmin)
+                        {
+                            <a class="btn btn-outline-danger" asp-action="RemoveAdmin" asp-controller="User" asp-route-id="@item.User.Id">Remove Adminstratour ?</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" asp-action="MakeAdmin" asp-controller="User" asp-route-id="@item.User.Id">Make Admin ?</a>   
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+    else
+    {
+        <p>No Users found registred in this site.</p>
+    }
+
+</table>
